@@ -7,6 +7,7 @@ import { connectDB } from "./config/db.js";
 import express from 'express';
 import notesRoutes from './routes/notesRoutes.js';
 import rateLimiter from "./middleware/rateLimiter.js";
+import cors from 'cors';
 
 console.log(process.env.MONGO_URI);
 
@@ -15,9 +16,11 @@ const PORT=process.env.PORT || 5001;
 
 //connectDB();
 
-app.use(express.json());
 //middleware
-
+app.use(cors({
+    origin: 'http://localhost:5173', 
+}));
+app.use(express.json());
 app.use(rateLimiter);
 
 app.use("/api/notes",notesRoutes);
